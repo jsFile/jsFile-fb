@@ -1,5 +1,3 @@
-import {dom as $} from 'JsFile';
-
 /**
  *
  * @param xml
@@ -9,7 +7,7 @@ import {dom as $} from 'JsFile';
 export default function (xml) {
     const info = {};
 
-    $.children(xml).forEach(({localName, textContent}) => {
+    [].forEach.call(xml && xml.childNodes || [], ({localName, textContent}) => {
 
         // firstName, middleName, lastName
         if (localName) {

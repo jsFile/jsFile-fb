@@ -1,4 +1,4 @@
-import {dom as $, Document} from 'JsFile';
+import {Document} from 'JsFile';
 
 /**
  *
@@ -10,7 +10,7 @@ import {dom as $, Document} from 'JsFile';
 export default function (xml, documentData, list) {
     const {attributes = {}} = xml;
 
-    $.children(xml).forEach(function (node) {
+    [].forEach.call(xml && xml.childNodes || [], function (node) {
         const localName = node.localName;
 
         if (localName === 'title') {

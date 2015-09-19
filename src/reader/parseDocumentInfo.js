@@ -1,4 +1,3 @@
-import {dom as $} from 'JsFile';
 import getPersonInfo from './getPersonInfo';
 
 /**
@@ -12,7 +11,7 @@ export default function (xml, documentData) {
         programs: []
     };
 
-    $.children(xml).forEach(function (node) {
+    [].forEach.call(xml && xml.childNodes || [], function (node) {
         const {localName, textContent = ''} = node;
         switch (localName) {
             case 'author':

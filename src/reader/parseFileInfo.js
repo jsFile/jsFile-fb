@@ -1,5 +1,4 @@
 import getPersonInfo from './getPersonInfo';
-import {dom as $} from 'JsFile';
 
 const simpleProperties = {
     genre: 'genre',
@@ -20,7 +19,7 @@ const simpleProperties = {
 export default function (xml, documentData) {
     const info = {};
 
-    $.children(xml).forEach(function (node) {
+    [].forEach.call(xml && xml.childNodes || [], function (node) {
         let {localName, textContent = ''} = node;
 
         if (simpleProperties[localName]) {

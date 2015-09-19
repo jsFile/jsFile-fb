@@ -185,7 +185,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _parseImage2 = _interopRequireDefault(_parseImage);
 
-	var $ = _JsFile2['default'].dom;
 	var Document = _JsFile2['default'].Document;
 
 	/**
@@ -200,8 +199,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            binaryItems: (0, _parseBinaryItems2['default'])(xml.querySelectorAll('binary'))
 	        };
 	        var page = Document.elementPrototype;
+	        var node = xml.querySelector('FictionBook');
 
-	        $.children(xml.querySelector('FictionBook')).forEach(function (node) {
+	        [].forEach.call(node && node.childNodes || [], function (node) {
 	            var name = node.localName;
 
 	            if (name === 'description') {
@@ -266,25 +266,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _JsFile = __webpack_require__(1);
+/***/ function(module, exports) {
 
 	/**
 	 * @param xml
 	 * @return {Object}
 	 * @private
 	 */
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
 
 	exports['default'] = function (xml) {
 	  var info = {};
-	  _JsFile.dom.children(xml).forEach(function (node) {
+	  [].forEach.call(xml && xml.childNodes || [], function (node) {
 	    return info[node.localName] = node.textContent || '';
 	  });
 	  return info;
@@ -444,8 +441,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _getPersonInfo2 = _interopRequireDefault(_getPersonInfo);
 
-	var _JsFile = __webpack_require__(1);
-
 	var simpleProperties = {
 	    genre: 'genre',
 	    lang: 'language',
@@ -466,7 +461,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = function (xml, documentData) {
 	    var info = {};
 
-	    _JsFile.dom.children(xml).forEach(function (node) {
+	    [].forEach.call(xml && xml.childNodes || [], function (node) {
 	        var localName = node.localName;
 	        var _node$textContent = node.textContent;
 	        var textContent = _node$textContent === undefined ? '' : _node$textContent;
@@ -497,15 +492,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 9 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	var _JsFile = __webpack_require__(1);
+/***/ function(module, exports) {
 
 	/**
 	 *
@@ -513,11 +500,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @return {Object}
 	 * @private
 	 */
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
 
 	exports['default'] = function (xml) {
 	    var info = {};
 
-	    _JsFile.dom.children(xml).forEach(function (_ref) {
+	    [].forEach.call(xml && xml.childNodes || [], function (_ref) {
 	        var localName = _ref.localName;
 	        var textContent = _ref.textContent;
 
@@ -545,8 +537,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _JsFile = __webpack_require__(1);
-
 	var _getPersonInfo = __webpack_require__(9);
 
 	var _getPersonInfo2 = _interopRequireDefault(_getPersonInfo);
@@ -563,7 +553,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        programs: []
 	    };
 
-	    _JsFile.dom.children(xml).forEach(function (node) {
+	    [].forEach.call(xml && xml.childNodes || [], function (node) {
 	        var localName = node.localName;
 	        var _node$textContent = node.textContent;
 	        var textContent = _node$textContent === undefined ? '' : _node$textContent;
@@ -625,7 +615,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _xml$attributes = xml.attributes;
 	    var attributes = _xml$attributes === undefined ? {} : _xml$attributes;
 
-	    _JsFile.dom.children(xml).forEach(function (node) {
+	    [].forEach.call(xml && xml.childNodes || [], function (node) {
 	        var localName = node.localName;
 
 	        if (localName === 'title') {
@@ -741,10 +731,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
 	    var node = params.node || {};
-	    var children = _JsFile.dom.children(node);
+	    var children = node && node.childNodes || [];
 	    var element = undefined;
 	    var result = _JsFile.Document.elementPrototype;
-
 	    result.properties.tagName = 'P';
 
 	    children.forEach(function (child) {

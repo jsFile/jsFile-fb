@@ -2,7 +2,7 @@ import JsFile from 'JsFile';
 import parseBinaryItems from './parseBinaryItems';
 import parsePublishInfo from './parsePublishInfo';
 import parseImage from './parseImage';
-const {dom: $, Document} = JsFile;
+const {Document} = JsFile;
 
 /**
  *
@@ -15,8 +15,9 @@ export default function (xml) {
             binaryItems: parseBinaryItems(xml.querySelectorAll('binary'))
         };
         const page = Document.elementPrototype;
+        const node = xml.querySelector('FictionBook');
 
-        $.children(xml.querySelector('FictionBook')).forEach(function (node) {
+        [].forEach.call(node && node.childNodes || [], function (node) {
             const name = node.localName;
 
             if (name === 'description') {

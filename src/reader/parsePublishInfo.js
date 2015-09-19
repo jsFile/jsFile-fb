@@ -1,5 +1,3 @@
-import {dom as $} from 'JsFile';
-
 /**
  * @param xml
  * @return {Object}
@@ -7,6 +5,6 @@ import {dom as $} from 'JsFile';
  */
 export default function (xml) {
     const info = {};
-    $.children(xml).forEach((node) => info[node.localName] = node.textContent || '');
+    [].forEach.call(xml && xml.childNodes || [], (node) => info[node.localName] = node.textContent || '');
     return info;
 };

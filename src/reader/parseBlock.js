@@ -1,9 +1,9 @@
-import {Document, dom as $} from 'JsFile';
+import {Document} from 'JsFile';
 
 export default function (xml, documentData) {
     const result = Document.elementPrototype;
 
-    $.children(xml).forEach(function (node) {
+    [].forEach.call(xml && xml.childNodes || [], function (node) {
         if (node.localName) {
             result.children.push(this.parseBlockElement({
                 node,

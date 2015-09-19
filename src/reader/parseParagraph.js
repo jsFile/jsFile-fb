@@ -1,4 +1,4 @@
-import {Document, dom as $} from 'JsFile';
+import {Document} from 'JsFile';
 import parseLinkElement from './parseLinkElement';
 
 /**
@@ -9,10 +9,9 @@ import parseLinkElement from './parseLinkElement';
  */
 export default function (params = {}) {
     const node = params.node || {};
-    const children = $.children(node);
+    const children = node && node.childNodes || [];
     let element;
     let result = Document.elementPrototype;
-
     result.properties.tagName = 'P';
 
     children.forEach((child) => {
