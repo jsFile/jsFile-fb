@@ -9,7 +9,7 @@ import parseLinkElement from './parseLinkElement';
  */
 export default function (params = {}) {
     const node = params.node || {};
-    const children = node && node.childNodes || [];
+    const children = [].slice.call(node && node.childNodes || [], 0);
     let element;
     let result = Document.elementPrototype;
     result.properties.tagName = 'P';
@@ -20,6 +20,7 @@ export default function (params = {}) {
             result.children.push(parseLinkElement(child));
         } else {
             element = Document.elementPrototype;
+            element.properties.tagName = 'SPAN';
             element.properties.textContent = textContent;
 
             if (localName === 'strong') {

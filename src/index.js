@@ -5,6 +5,7 @@ import parseFileInfo from './reader/parseFileInfo';
 import parseDocumentInfo from './reader/parseDocumentInfo';
 import parsePages from './reader/parsePages';
 import parseBlockElement from './reader/parseBlockElement';
+import parseBlock from './reader/parseBlock';
 import parseParagraph from './reader/parseParagraph';
 
 /**
@@ -34,6 +35,8 @@ class FbEngine extends Engine {
     parsePages = parsePages
 
     parseBlockElement = parseBlockElement
+
+    parseBlock = parseBlock
 
     parseParagraph = parseParagraph
 

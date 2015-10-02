@@ -96,7 +96,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _readerParseBlockElement2 = _interopRequireDefault(_readerParseBlockElement);
 
-	var _readerParseParagraph = __webpack_require__(13);
+	var _readerParseBlock = __webpack_require__(13);
+
+	var _readerParseBlock2 = _interopRequireDefault(_readerParseBlock);
+
+	var _readerParseParagraph = __webpack_require__(14);
 
 	var _readerParseParagraph2 = _interopRequireDefault(_readerParseParagraph);
 
@@ -124,6 +128,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.parseDocumentInfo = _readerParseDocumentInfo2['default'];
 	        this.parsePages = _readerParsePages2['default'];
 	        this.parseBlockElement = _readerParseBlockElement2['default'];
+	        this.parseBlock = _readerParseBlock2['default'];
 	        this.parseParagraph = _readerParseParagraph2['default'];
 	    }
 
@@ -230,7 +235,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        resolve(new Document({
 	            name: this.fileName,
-	            pages: [page]
+	            content: [page]
 	        }));
 	    }).bind(this));
 	};
@@ -345,6 +350,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
+	var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	var _JsFile = __webpack_require__(1);
@@ -355,9 +362,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _normalizeEncodingValue2 = _interopRequireDefault(_normalizeEncodingValue);
 
-	var invalidFileType = _JsFile2['default'].Engine.errors.invalidFileType;
-
-	var defaultEncoding = 'utf-8';
+	var _JsFile$Engine$errors = _JsFile2['default'].Engine.errors;
+	var invalidFileType = _JsFile$Engine$errors.invalidFileType;
+	var invalidReadFile = _JsFile$Engine$errors.invalidReadFile;
 
 	/**
 	 * @description Read files in Fiction Book Format
@@ -375,23 +382,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return;
 	        }
 
-	        this.readFileEntry(fileEntry).then((function (result) {
+	        var createDocument = (function (result) {
 	            var domParser = new DOMParser();
-	            var encoding = /encoding='(.+)'/.exec(result);
-	            encoding = encoding ? (0, _normalizeEncodingValue2['default'])(encoding[1]) : defaultEncoding;
+	            resolve(this.createDocument(domParser.parseFromString(result, 'application/xml')));
+	        }).bind(this);
+
+	        this.readFileEntry(fileEntry).then((function (result) {
+	            var defaultEncoding = _normalizeEncodingValue2['default'].defaultEncoding;
+
+	            var _encoding$exec = /encoding="(.+)"/.exec(result);
+
+	            var _encoding$exec2 = _slicedToArray(_encoding$exec, 2);
+
+	            var encoding = _encoding$exec2[1];
+
+	            encoding = encoding ? (0, _normalizeEncodingValue2['default'])(encoding) : defaultEncoding;
 
 	            if (encoding !== defaultEncoding) {
 	                fileEntry.encoding = encoding;
-	                this.readFileEntry(fileEntry).then((function (result) {
-	                    resolve(this.createDocument(domParser.parseFromString(result, 'application/xml')));
-	                }).bind(this), function () {
-	                    return reject(new Error(invalidFileType));
+	                this.readFileEntry(fileEntry).then(createDocument, function () {
+	                    return reject(new Error(invalidReadFile));
 	                });
 	            } else {
-	                resolve(this.createDocument(domParser.parseFromString(result, 'application/xml')));
+	                createDocument(result);
 	            }
 	        }).bind(this), function () {
-	            return reject(new Error(invalidFileType));
+	            return reject(new Error(invalidReadFile));
 	        });
 	    }).bind(this));
 	};
@@ -407,11 +423,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
-	var defaultEncoding = 'utf-8';
 	var encodings = {
 	  'windows-1251': 'cp1251'
 	};
 
+	var defaultEncoding = 'utf8';
+
+	exports.defaultEncoding = defaultEncoding;
 	/**
 	 *
 	 * @param value
@@ -422,8 +440,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = function (value) {
 	  return value && encodings[String(value).toLowerCase()] || defaultEncoding;
 	};
-
-	module.exports = exports['default'];
 
 /***/ },
 /* 8 */
@@ -712,11 +728,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
+	var _JsFile = __webpack_require__(1);
+
+	exports['default'] = function (xml, documentData) {
+	    var result = _JsFile.Document.elementPrototype;
+
+	    [].forEach.call(xml && xml.childNodes || [], function (node) {
+	        if (node.localName) {
+	            result.children.push(this.parseBlockElement({
+	                node: node,
+	                documentData: documentData
+	            }));
+	        }
+	    }, this);
+
+	    return result;
+	};
+
+	;
+	module.exports = exports['default'];
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	var _JsFile = __webpack_require__(1);
 
-	var _parseLinkElement = __webpack_require__(14);
+	var _parseLinkElement = __webpack_require__(15);
 
 	var _parseLinkElement2 = _interopRequireDefault(_parseLinkElement);
 
@@ -731,7 +777,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
 	    var node = params.node || {};
-	    var children = node && node.childNodes || [];
+	    var children = [].slice.call(node && node.childNodes || [], 0);
 	    var element = undefined;
 	    var result = _JsFile.Document.elementPrototype;
 	    result.properties.tagName = 'P';
@@ -745,6 +791,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            result.children.push((0, _parseLinkElement2['default'])(child));
 	        } else {
 	            element = _JsFile.Document.elementPrototype;
+	            element.properties.tagName = 'SPAN';
 	            element.properties.textContent = textContent;
 
 	            if (localName === 'strong') {
@@ -770,7 +817,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

@@ -1,7 +1,8 @@
-const defaultEncoding = 'utf-8';
 const encodings = {
     'windows-1251': 'cp1251'
 };
+
+export const defaultEncoding = 'utf8';
 
 /**
  *

@@ -1,7 +1,6 @@
 import JsFile from 'JsFile';
 import normalizeEncodingValue from './normalizeEncodingValue';
-const {errors: {invalidFileType}} = JsFile.Engine;
-const defaultEncoding = 'utf-8';
+const {errors: {invalidFileType, invalidReadFile}} = JsFile.Engine;
 
 /**
  * @description Read files in Fiction Book Format
@@ -18,25 +17,26 @@ export default function () {
             return;
         }
 
+        const createDocument = function (result) {
+            const domParser = new DOMParser();
+            resolve(this.createDocument(domParser.parseFromString(result, 'application/xml')));
+        }.bind(this);
+
         this.readFileEntry(fileEntry).then(
             function (result) {
-                const domParser = new DOMParser();
-                let encoding = (/encoding='(.+)'/).exec(result);
-                encoding = encoding ? normalizeEncodingValue(encoding[1]) : defaultEncoding;
+                const {defaultEncoding} = normalizeEncodingValue;
+                let [,encoding] = (/encoding="(.+)"/).exec(result);
+                encoding = encoding ? normalizeEncodingValue(encoding) : defaultEncoding;
 
                 if (encoding !== defaultEncoding) {
                     fileEntry.encoding = encoding;
-                    this.readFileEntry(fileEntry).then(
-                        function (result) {
-                            resolve(this.createDocument(domParser.parseFromString(result, 'application/xml')));
-                        }.bind(this),
-                        () => reject(new Error(invalidFileType))
-                    );
+                    this.readFileEntry(fileEntry).then(createDocument, () => reject(new Error(invalidReadFile)));
                 } else {
-                    resolve(this.createDocument(domParser.parseFromString(result, 'application/xml')));
+                    createDocument(result);
                 }
             }.bind(this),
-            () => reject(new Error(invalidFileType))
+            () => reject(new Error(invalidReadFile))
         );
+
     }.bind(this));
 }

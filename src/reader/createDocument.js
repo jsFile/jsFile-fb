@@ -51,7 +51,7 @@ export default function (xml) {
 
         resolve(new Document({
             name: this.fileName,
-            pages: [page]
+            content: [page]
         }));
     }.bind(this));
 }
