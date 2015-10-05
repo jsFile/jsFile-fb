@@ -207,9 +207,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var node = xml.querySelector('FictionBook');
 
 	        [].forEach.call(node && node.childNodes || [], function (node) {
-	            var name = node.localName;
+	            var localName = node.localName;
 
-	            if (name === 'description') {
+	            if (localName === 'description') {
 	                var descriptionNode = xml.querySelector('description');
 
 	                documentData.publishInfo = (0, _parsePublishInfo2['default'])(descriptionNode.querySelector('publish-info'));
@@ -228,7 +228,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    })];
 	                    page.children.push(element);
 	                }
-	            } else if (name === 'body') {
+	            } else if (localName === 'body') {
 	                this.parsePages(node, documentData, page.children);
 	            }
 	        }, this);
@@ -323,7 +323,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var documentData = options.documentData;
 	    var imageName = options.imageName;
 
-	    var attrValue = node.attributes && node.attributes['l:href'] && node.attributes['l:href'].value;
+	    var attrValue = node.attributes && node.attributes['xlink:href'] && node.attributes['xlink:href'].value;
 
 	    if (!imageName && attrValue) {
 	        result.properties.src = documentData.binaryItems[attrValue.replace('#', '')];
@@ -489,7 +489,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else if (localName === 'coverpage') {
 	            var imageNode = node.querySelector('image');
 	            info.coverpage = {
-	                image: (imageNode.attributes['l:href'] && imageNode.attributes['l:href'].value || '').replace('#', '')
+	                image: (imageNode.attributes['xlink:href'] && imageNode.attributes['xlink:href'].value || '').replace('#', '')
 	            };
 	        } else if (localName === 'sequence') {
 	            var number = node.attributes.number && node.attributes.number.value;
@@ -650,7 +650,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var el = _JsFile.Document.elementPrototype;
 	        el.properties.tagName = 'A';
 	        el.properties.name = attributes.id.value;
-	        list[list.length - 1].children.push(el);
+	        list[list.length - 1].children.unshift(el);
 	    }
 	};
 

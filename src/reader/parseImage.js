@@ -9,7 +9,7 @@ import {Document} from 'JsFile';
 export default function (options = {}) {
     const result = Document.elementPrototype;
     const {node = {}, documentData, imageName} = options;
-    const attrValue = node.attributes && node.attributes['l:href'] && node.attributes['l:href'].value;
+    const attrValue = node.attributes && node.attributes['xlink:href'] && node.attributes['xlink:href'].value;
 
     if (!imageName && attrValue) {
         result.properties.src = documentData.binaryItems[attrValue.replace('#', '')];

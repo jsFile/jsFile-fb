@@ -28,9 +28,9 @@ export default function (xml, documentData, list) {
     }, this);
 
     if (attributes.id && attributes.id.value && list[0]) {
-        let el = Document.elementPrototype;
+        const el = Document.elementPrototype;
         el.properties.tagName = 'A';
         el.properties.name = attributes.id.value;
-        list[list.length - 1].children.push(el);
+        list[list.length - 1].children.unshift(el);
     }
 };

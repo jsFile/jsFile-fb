@@ -18,9 +18,9 @@ export default function (xml) {
         const node = xml.querySelector('FictionBook');
 
         [].forEach.call(node && node.childNodes || [], function (node) {
-            const name = node.localName;
+            const {localName} = node;
 
-            if (name === 'description') {
+            if (localName === 'description') {
                 const descriptionNode = xml.querySelector('description');
 
                 documentData.publishInfo = parsePublishInfo(descriptionNode.querySelector('publish-info'));
@@ -44,7 +44,7 @@ export default function (xml) {
                     ];
                     page.children.push(element);
                 }
-            } else if (name === 'body') {
+            } else if (localName === 'body') {
                 this.parsePages(node, documentData, page.children);
             }
         }, this);

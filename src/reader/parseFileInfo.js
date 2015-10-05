@@ -29,7 +29,7 @@ export default function (xml, documentData) {
         } else if (localName === 'coverpage') {
             const imageNode = node.querySelector('image');
             info.coverpage = {
-                image: (imageNode.attributes['l:href'] && imageNode.attributes['l:href'].value || '').replace('#', '')
+                image: (imageNode.attributes['xlink:href'] && imageNode.attributes['xlink:href'].value || '').replace('#', '')
             };
         } else if (localName === 'sequence') {
             const number = node.attributes.number && node.attributes.number.value;
