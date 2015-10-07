@@ -15,22 +15,28 @@ export default function (xml, documentData) {
         const {localName, textContent = ''} = node;
         switch (localName) {
             case 'author':
-                info.author = getPersonInfo(node);
-                break;
-            case 'src-url':
-                info.sourceURL = textContent;
+                info[localName] = getPersonInfo(node);
                 break;
             case 'id':
-                info.id = textContent;
+                info[localName] = textContent;
                 break;
             case 'version':
-                info.version = textContent;
+                info[localName] = textContent;
+                break;
+            case 'publisher':
+                info[localName] = textContent;
                 break;
             case 'history':
-                info.history = this.parseBlock(node, documentData);
+                info[localName] = this.parseBlock(node, documentData);
                 break;
             case 'date':
-                info.date = textContent.split('-').reverse().join('.');
+                info[localName] = textContent;
+                break;
+            case 'src-url':
+                info.sourceUrl = textContent;
+                break;
+            case 'src-ocr':
+                info.originalAuthor = textContent;
                 break;
             case 'program-used':
                 info.programs = textContent.split(',').map(program => program.trim());

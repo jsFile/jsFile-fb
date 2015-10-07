@@ -1,3 +1,6 @@
+import JsFile from 'JsFile';
+const {formatPropertyName} = JsFile.Engine;
+
 /**
  *
  * @param xml
@@ -7,11 +10,9 @@
 export default function (xml) {
     const info = {};
 
-    [].forEach.call(xml && xml.childNodes || [], ({localName, textContent}) => {
-
-        // firstName, middleName, lastName
+    [].forEach.call(xml && xml.childNodes || [], ({localName, textContent = ''}) => {
         if (localName) {
-            info[localName.replace(/-\w+$/, '') + 'Name'] = textContent || '';
+            info[formatPropertyName(localName)] = textContent;
         }
     });
 

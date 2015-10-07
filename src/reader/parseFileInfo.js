@@ -1,14 +1,6 @@
+import JsFile from 'JsFile';
 import getPersonInfo from './getPersonInfo';
-
-const simpleProperties = {
-    genre: 'genre',
-    lang: 'language',
-    translator: 'translator',
-    date: 'date',
-    author: 'author',
-    'src-lang': 'sourceLanguage',
-    'book-title': 'title'
-};
+const {formatPropertyName} = JsFile.Engine;
 
 /**
  * @param xml
@@ -22,21 +14,36 @@ export default function (xml, documentData) {
     [].forEach.call(xml && xml.childNodes || [], function (node) {
         let {localName, textContent = ''} = node;
 
-        if (simpleProperties[localName]) {
-            info[simpleProperties[localName]] = textContent;
-        } else if (localName === 'annotation') {
-            info.annotation = this.parseBlock(node, documentData);
-        } else if (localName === 'coverpage') {
-            const imageNode = node.querySelector('image');
-            info.coverpage = {
-                image: (imageNode.attributes['xlink:href'] && imageNode.attributes['xlink:href'].value || '').replace('#', '')
-            };
-        } else if (localName === 'sequence') {
-            const number = node.attributes.number && node.attributes.number.value;
-            info.sequence = {
-                name: node.attributes.name ? node.attributes.name.value || '' : '',
-                number: isNaN(number) ? 0 : Number(number)
-            };
+        switch (localName) {
+            case 'genre':
+                info[localName] = info[localName] || [];
+                info[localName].push(textContent);
+                break;
+            case 'keywords':
+                info[localName] = textContent.split(/\s*,\s*/);
+                break;
+            case 'annotation':
+                info[localName] = this.parseBlock(node, documentData);
+                break;
+            case 'translator':
+                info[localName] = getPersonInfo(node);
+                break;
+            case 'coverpage':
+                const imageNode = node.querySelector('image');
+                const href = (imageNode.attributes['xlink:href'] && imageNode.attributes['xlink:href'].value || '');
+                info[localName] = {
+                    image: href.replace('#', '')
+                };
+                break;
+            case 'sequence':
+                const number = node.attributes.number && node.attributes.number.value;
+                info[localName] = {
+                    name: node.attributes.name ? node.attributes.name.value || '' : '',
+                    number: isNaN(number) ? 0 : Number(number)
+                };
+                break;
+            default:
+                info[formatPropertyName(localName)] = textContent;
         }
     }, this);
 

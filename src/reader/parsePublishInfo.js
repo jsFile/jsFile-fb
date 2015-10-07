@@ -1,3 +1,6 @@
+import JsFile from 'JsFile';
+const {formatPropertyName} = JsFile.Engine;
+
 /**
  * @param xml
  * @return {Object}
@@ -5,6 +8,8 @@
  */
 export default function (xml) {
     const info = {};
-    [].forEach.call(xml && xml.childNodes || [], (node) => info[node.localName] = node.textContent || '');
+    [].forEach.call(xml && xml.childNodes || [], (node) => {
+        info[formatPropertyName(node.localName)] = node.textContent || '';
+    });
     return info;
 };

@@ -1,8 +1,32 @@
 import JsFile from 'JsFile';
 import parseBinaryItems from './parseBinaryItems';
 import parsePublishInfo from './parsePublishInfo';
+import parseFileInfo from './parseFileInfo';
+import parseDocumentInfo from './parseDocumentInfo';
+import parseCustomInfo from './parseCustomInfo';
 import parseImage from './parseImage';
 const {Document} = JsFile;
+const {formatPropertyName} = JsFile.Engine;
+const forEach = [].forEach;
+const descriptionProcessors = {
+    'publish-info': {
+        parser: parsePublishInfo
+    },
+    'title-info': {
+        name: 'fileInfo',
+        parser: parseFileInfo
+    },
+    'src-title-info': {
+        name: 'originalFileInfo',
+        parser: parseFileInfo
+    },
+    'document-info': {
+        parser: parseDocumentInfo
+    },
+    'custom-info': {
+        parser: parseCustomInfo
+    }
+};
 
 /**
  *
@@ -17,21 +41,24 @@ export default function (xml) {
         const page = Document.elementPrototype;
         const node = xml.querySelector('FictionBook');
 
-        [].forEach.call(node && node.childNodes || [], function (node) {
+        forEach.call(node && node.childNodes || [], function (node) {
             const {localName} = node;
 
             if (localName === 'description') {
-                const descriptionNode = xml.querySelector('description');
+                forEach.call(node.childNodes || [], function (node) {
+                    const {localName} = node;
+                    const {name, parser} = descriptionProcessors[localName] || {};
+                    if (parser) {
+                        documentData[name || formatPropertyName(localName)] = parser.call(this, node, documentData);
+                    }
+                }, this);
 
-                documentData.publishInfo = parsePublishInfo(descriptionNode.querySelector('publish-info'));
-                documentData.fileInfo = this.parseFileInfo(descriptionNode.querySelector('title-info'), documentData);
-                documentData.documentInfo = this.parseDocumentInfo(descriptionNode.querySelector('document-info'), documentData);
-
-                if (documentData.fileInfo.annotation) {
+                if (documentData.fileInfo && documentData.fileInfo.annotation) {
                     page.children.push(documentData.fileInfo.annotation);
                 }
 
                 if (
+                    documentData.fileInfo &&
                     documentData.fileInfo.coverpage &&
                     documentData.binaryItems[documentData.fileInfo.coverpage.image]
                 ) {
