@@ -36,6 +36,9 @@ const descriptionProcessors = {
 export default function (xml) {
     return new Promise(function (resolve) {
         const documentData = {
+            meta: {
+                name: this.fileName
+            },
             binaryItems: parseBinaryItems(xml.querySelectorAll('binary'))
         };
         const page = Document.elementPrototype;
@@ -49,24 +52,24 @@ export default function (xml) {
                     const {localName} = node;
                     const {name, parser} = descriptionProcessors[localName] || {};
                     if (parser) {
-                        documentData[name || formatPropertyName(localName)] = parser.call(this, node, documentData);
+                        documentData.meta[name || formatPropertyName(localName)] = parser.call(this, node, documentData);
                     }
                 }, this);
 
-                if (documentData.fileInfo && documentData.fileInfo.annotation) {
-                    page.children.push(documentData.fileInfo.annotation);
+                if (documentData.meta.fileInfo && documentData.meta.fileInfo.annotation) {
+                    page.children.push(documentData.meta.fileInfo.annotation);
                 }
 
                 if (
-                    documentData.fileInfo &&
-                    documentData.fileInfo.coverpage &&
-                    documentData.binaryItems[documentData.fileInfo.coverpage.image]
+                    documentData.meta.fileInfo &&
+                    documentData.meta.fileInfo.coverpage &&
+                    documentData.binaryItems[documentData.meta.fileInfo.coverpage.image]
                 ) {
                     let element = Document.elementPrototype;
                     element.children = [
                         parseImage({
-                            documentData: documentData,
-                            imageName: documentData.fileInfo.coverpage.image
+                            documentData,
+                            imageName: documentData.meta.fileInfo.coverpage.image
                         })
                     ];
                     page.children.push(element);
@@ -77,7 +80,7 @@ export default function (xml) {
         }, this);
 
         resolve(new Document({
-            name: this.fileName,
+            meta: documentData.meta,
             content: [page]
         }));
     }.bind(this));

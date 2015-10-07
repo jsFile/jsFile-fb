@@ -9,8 +9,9 @@ import parseImage from './parseImage';
 export default function (options = {}) {
     let result;
     const {documentData, node = {}} = options;
+    const {localName} = node;
 
-    switch (node.localName) {
+    switch (localName) {
         case 'p':
             result = this.parseParagraph({node});
             break;
@@ -30,7 +31,9 @@ export default function (options = {}) {
 
             break;
         default:
-            result = this.parseBlock(node, documentData);
+            if (localName) {
+                result = this.parseBlock(node, documentData);
+            }
     }
 
     return result;

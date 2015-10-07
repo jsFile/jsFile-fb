@@ -76,31 +76,31 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _readerCreateDocument2 = _interopRequireDefault(_readerCreateDocument);
 
-	var _readerParser = __webpack_require__(6);
+	var _readerParser = __webpack_require__(10);
 
 	var _readerParser2 = _interopRequireDefault(_readerParser);
 
-	var _readerParseFileInfo = __webpack_require__(8);
+	var _readerParseFileInfo = __webpack_require__(5);
 
 	var _readerParseFileInfo2 = _interopRequireDefault(_readerParseFileInfo);
 
-	var _readerParseDocumentInfo = __webpack_require__(10);
+	var _readerParseDocumentInfo = __webpack_require__(7);
 
 	var _readerParseDocumentInfo2 = _interopRequireDefault(_readerParseDocumentInfo);
 
-	var _readerParsePages = __webpack_require__(11);
+	var _readerParsePages = __webpack_require__(12);
 
 	var _readerParsePages2 = _interopRequireDefault(_readerParsePages);
 
-	var _readerParseBlockElement = __webpack_require__(12);
+	var _readerParseBlockElement = __webpack_require__(13);
 
 	var _readerParseBlockElement2 = _interopRequireDefault(_readerParseBlockElement);
 
-	var _readerParseBlock = __webpack_require__(13);
+	var _readerParseBlock = __webpack_require__(14);
 
 	var _readerParseBlock2 = _interopRequireDefault(_readerParseBlock);
 
-	var _readerParseParagraph = __webpack_require__(14);
+	var _readerParseParagraph = __webpack_require__(15);
 
 	var _readerParseParagraph2 = _interopRequireDefault(_readerParseParagraph);
 
@@ -186,11 +186,45 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _parsePublishInfo2 = _interopRequireDefault(_parsePublishInfo);
 
-	var _parseImage = __webpack_require__(5);
+	var _parseFileInfo = __webpack_require__(5);
+
+	var _parseFileInfo2 = _interopRequireDefault(_parseFileInfo);
+
+	var _parseDocumentInfo = __webpack_require__(7);
+
+	var _parseDocumentInfo2 = _interopRequireDefault(_parseDocumentInfo);
+
+	var _parseCustomInfo = __webpack_require__(8);
+
+	var _parseCustomInfo2 = _interopRequireDefault(_parseCustomInfo);
+
+	var _parseImage = __webpack_require__(9);
 
 	var _parseImage2 = _interopRequireDefault(_parseImage);
 
 	var Document = _JsFile2['default'].Document;
+	var formatPropertyName = _JsFile2['default'].Engine.formatPropertyName;
+
+	var forEach = [].forEach;
+	var descriptionProcessors = {
+	    'publish-info': {
+	        parser: _parsePublishInfo2['default']
+	    },
+	    'title-info': {
+	        name: 'fileInfo',
+	        parser: _parseFileInfo2['default']
+	    },
+	    'src-title-info': {
+	        name: 'originalFileInfo',
+	        parser: _parseFileInfo2['default']
+	    },
+	    'document-info': {
+	        parser: _parseDocumentInfo2['default']
+	    },
+	    'custom-info': {
+	        parser: _parseCustomInfo2['default']
+	    }
+	};
 
 	/**
 	 *
@@ -201,30 +235,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = function (xml) {
 	    return new Promise((function (resolve) {
 	        var documentData = {
+	            meta: {
+	                name: this.fileName
+	            },
 	            binaryItems: (0, _parseBinaryItems2['default'])(xml.querySelectorAll('binary'))
 	        };
 	        var page = Document.elementPrototype;
 	        var node = xml.querySelector('FictionBook');
 
-	        [].forEach.call(node && node.childNodes || [], function (node) {
+	        forEach.call(node && node.childNodes || [], function (node) {
 	            var localName = node.localName;
 
 	            if (localName === 'description') {
-	                var descriptionNode = xml.querySelector('description');
+	                forEach.call(node.childNodes || [], function (node) {
+	                    var localName = node.localName;
 
-	                documentData.publishInfo = (0, _parsePublishInfo2['default'])(descriptionNode.querySelector('publish-info'));
-	                documentData.fileInfo = this.parseFileInfo(descriptionNode.querySelector('title-info'), documentData);
-	                documentData.documentInfo = this.parseDocumentInfo(descriptionNode.querySelector('document-info'), documentData);
+	                    var _ref = descriptionProcessors[localName] || {};
 
-	                if (documentData.fileInfo.annotation) {
-	                    page.children.push(documentData.fileInfo.annotation);
+	                    var name = _ref.name;
+	                    var parser = _ref.parser;
+
+	                    if (parser) {
+	                        documentData.meta[name || formatPropertyName(localName)] = parser.call(this, node, documentData);
+	                    }
+	                }, this);
+
+	                if (documentData.meta.fileInfo && documentData.meta.fileInfo.annotation) {
+	                    page.children.push(documentData.meta.fileInfo.annotation);
 	                }
 
-	                if (documentData.fileInfo.coverpage && documentData.binaryItems[documentData.fileInfo.coverpage.image]) {
+	                if (documentData.meta.fileInfo && documentData.meta.fileInfo.coverpage && documentData.binaryItems[documentData.meta.fileInfo.coverpage.image]) {
 	                    var element = Document.elementPrototype;
 	                    element.children = [(0, _parseImage2['default'])({
 	                        documentData: documentData,
-	                        imageName: documentData.fileInfo.coverpage.image
+	                        imageName: documentData.meta.fileInfo.coverpage.image
 	                    })];
 	                    page.children.push(element);
 	                }
@@ -234,7 +278,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }, this);
 
 	        resolve(new Document({
-	            name: this.fileName,
+	            meta: documentData.meta,
 	            content: [page]
 	        }));
 	    }).bind(this));
@@ -271,25 +315,38 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _JsFile = __webpack_require__(1);
+
+	var _JsFile2 = _interopRequireDefault(_JsFile);
+
+	var formatPropertyName = _JsFile2['default'].Engine.formatPropertyName;
 
 	/**
 	 * @param xml
 	 * @return {Object}
 	 * @private
 	 */
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
 
 	exports['default'] = function (xml) {
-	  var info = {};
-	  [].forEach.call(xml && xml.childNodes || [], function (node) {
-	    return info[node.localName] = node.textContent || '';
-	  });
-	  return info;
+	    var info = {};
+	    [].forEach.call(xml && xml.childNodes || [], function (node) {
+	        var localName = node.localName;
+
+	        if (localName) {
+	            info[formatPropertyName(localName)] = node.textContent || '';
+	        }
+	    });
+	    return info;
 	};
 
 	;
@@ -297,6 +354,216 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _JsFile = __webpack_require__(1);
+
+	var _JsFile2 = _interopRequireDefault(_JsFile);
+
+	var _getPersonInfo = __webpack_require__(6);
+
+	var _getPersonInfo2 = _interopRequireDefault(_getPersonInfo);
+
+	var formatPropertyName = _JsFile2['default'].Engine.formatPropertyName;
+
+	/**
+	 * @param xml
+	 * @param documentData
+	 * @return {Object}
+	 * @private
+	 */
+
+	exports['default'] = function (xml, documentData) {
+	    var info = {};
+
+	    [].forEach.call(xml && xml.childNodes || [], function (node) {
+	        var localName = node.localName;
+	        var _node$textContent = node.textContent;
+	        var textContent = _node$textContent === undefined ? '' : _node$textContent;
+
+	        switch (localName) {
+	            case 'genre':
+	                info[localName] = info[localName] || [];
+	                info[localName].push(textContent);
+	                break;
+	            case 'keywords':
+	                info[localName] = textContent.split(/\s*,\s*/);
+	                break;
+	            case 'annotation':
+	                info[localName] = this.parseBlock(node, documentData);
+	                break;
+	            case 'translator':
+	                info[localName] = (0, _getPersonInfo2['default'])(node);
+	                break;
+	            case 'coverpage':
+	                var imageNode = node.querySelector('image');
+	                var href = imageNode.attributes['xlink:href'] && imageNode.attributes['xlink:href'].value || '';
+	                info[localName] = {
+	                    image: href.replace('#', '')
+	                };
+	                break;
+	            case 'sequence':
+	                var number = node.attributes.number && node.attributes.number.value;
+	                info[localName] = {
+	                    name: node.attributes.name ? node.attributes.name.value || '' : '',
+	                    number: isNaN(number) ? 0 : Number(number)
+	                };
+	                break;
+	            default:
+	                if (localName) {
+	                    info[formatPropertyName(localName)] = textContent;
+	                }
+	        }
+	    }, this);
+
+	    return info;
+	};
+
+	;
+	module.exports = exports['default'];
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _JsFile = __webpack_require__(1);
+
+	var _JsFile2 = _interopRequireDefault(_JsFile);
+
+	var formatPropertyName = _JsFile2['default'].Engine.formatPropertyName;
+
+	/**
+	 *
+	 * @param xml
+	 * @return {Object}
+	 * @private
+	 */
+
+	exports['default'] = function (xml) {
+	    var info = {};
+
+	    [].forEach.call(xml && xml.childNodes || [], function (_ref) {
+	        var localName = _ref.localName;
+	        var _ref$textContent = _ref.textContent;
+	        var textContent = _ref$textContent === undefined ? '' : _ref$textContent;
+
+	        if (localName) {
+	            info[formatPropertyName(localName)] = textContent;
+	        }
+	    });
+
+	    return info;
+	};
+
+	;
+	module.exports = exports['default'];
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _getPersonInfo = __webpack_require__(6);
+
+	var _getPersonInfo2 = _interopRequireDefault(_getPersonInfo);
+
+	/**
+	 * @param xml
+	 * @param documentData
+	 * @return {Object}
+	 * @private
+	 */
+
+	exports['default'] = function (xml, documentData) {
+	    var info = {
+	        programs: []
+	    };
+
+	    [].forEach.call(xml && xml.childNodes || [], function (node) {
+	        var localName = node.localName;
+	        var _node$textContent = node.textContent;
+	        var textContent = _node$textContent === undefined ? '' : _node$textContent;
+
+	        switch (localName) {
+	            case 'author':
+	                info[localName] = (0, _getPersonInfo2['default'])(node);
+	                break;
+	            case 'id':
+	                info[localName] = textContent;
+	                break;
+	            case 'version':
+	                info[localName] = textContent;
+	                break;
+	            case 'publisher':
+	                info[localName] = textContent;
+	                break;
+	            case 'history':
+	                info[localName] = this.parseBlock(node, documentData);
+	                break;
+	            case 'date':
+	                info[localName] = textContent;
+	                break;
+	            case 'src-url':
+	                info.sourceUrl = textContent;
+	                break;
+	            case 'src-ocr':
+	                info.originalAuthor = textContent;
+	                break;
+	            case 'program-used':
+	                info.programs = textContent.split(',').map(function (program) {
+	                    return program.trim();
+	                });
+	                break;
+	        }
+	    }, this);
+
+	    return info;
+	};
+
+	;
+	module.exports = exports['default'];
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	exports['default'] = function (xml) {
+	  return xml && xml.textContent || '';
+	};
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -341,7 +608,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 6 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -358,7 +625,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _JsFile2 = _interopRequireDefault(_JsFile);
 
-	var _normalizeEncodingValue = __webpack_require__(7);
+	var _normalizeEncodingValue = __webpack_require__(11);
 
 	var _normalizeEncodingValue2 = _interopRequireDefault(_normalizeEncodingValue);
 
@@ -415,7 +682,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 7 */
+/* 11 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -442,173 +709,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _getPersonInfo = __webpack_require__(9);
-
-	var _getPersonInfo2 = _interopRequireDefault(_getPersonInfo);
-
-	var simpleProperties = {
-	    genre: 'genre',
-	    lang: 'language',
-	    translator: 'translator',
-	    date: 'date',
-	    author: 'author',
-	    'src-lang': 'sourceLanguage',
-	    'book-title': 'title'
-	};
-
-	/**
-	 * @param xml
-	 * @param documentData
-	 * @return {Object}
-	 * @private
-	 */
-
-	exports['default'] = function (xml, documentData) {
-	    var info = {};
-
-	    [].forEach.call(xml && xml.childNodes || [], function (node) {
-	        var localName = node.localName;
-	        var _node$textContent = node.textContent;
-	        var textContent = _node$textContent === undefined ? '' : _node$textContent;
-
-	        if (simpleProperties[localName]) {
-	            info[simpleProperties[localName]] = textContent;
-	        } else if (localName === 'annotation') {
-	            info.annotation = this.parseBlock(node, documentData);
-	        } else if (localName === 'coverpage') {
-	            var imageNode = node.querySelector('image');
-	            info.coverpage = {
-	                image: (imageNode.attributes['xlink:href'] && imageNode.attributes['xlink:href'].value || '').replace('#', '')
-	            };
-	        } else if (localName === 'sequence') {
-	            var number = node.attributes.number && node.attributes.number.value;
-	            info.sequence = {
-	                name: node.attributes.name ? node.attributes.name.value || '' : '',
-	                number: isNaN(number) ? 0 : Number(number)
-	            };
-	        }
-	    }, this);
-
-	    return info;
-	};
-
-	;
-	module.exports = exports['default'];
-
-/***/ },
-/* 9 */
-/***/ function(module, exports) {
-
-	/**
-	 *
-	 * @param xml
-	 * @return {Object}
-	 * @private
-	 */
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	exports['default'] = function (xml) {
-	    var info = {};
-
-	    [].forEach.call(xml && xml.childNodes || [], function (_ref) {
-	        var localName = _ref.localName;
-	        var textContent = _ref.textContent;
-
-	        // firstName, middleName, lastName
-	        if (localName) {
-	            info[localName.replace(/-\w+$/, '') + 'Name'] = textContent || '';
-	        }
-	    });
-
-	    return info;
-	};
-
-	;
-	module.exports = exports['default'];
-
-/***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _getPersonInfo = __webpack_require__(9);
-
-	var _getPersonInfo2 = _interopRequireDefault(_getPersonInfo);
-
-	/**
-	 * @param xml
-	 * @param documentData
-	 * @return {Object}
-	 * @private
-	 */
-
-	exports['default'] = function (xml, documentData) {
-	    var info = {
-	        programs: []
-	    };
-
-	    [].forEach.call(xml && xml.childNodes || [], function (node) {
-	        var localName = node.localName;
-	        var _node$textContent = node.textContent;
-	        var textContent = _node$textContent === undefined ? '' : _node$textContent;
-
-	        switch (localName) {
-	            case 'author':
-	                info.author = (0, _getPersonInfo2['default'])(node);
-	                break;
-	            case 'src-url':
-	                info.sourceURL = textContent;
-	                break;
-	            case 'id':
-	                info.id = textContent;
-	                break;
-	            case 'version':
-	                info.version = textContent;
-	                break;
-	            case 'history':
-	                info.history = this.parseBlock(node, documentData);
-	                break;
-	            case 'date':
-	                info.date = textContent.split('-').reverse().join('.');
-	                break;
-	            case 'program-used':
-	                info.programs = textContent.split(',').map(function (program) {
-	                    return program.trim();
-	                });
-	                break;
-	        }
-	    }, this);
-
-	    return info;
-	};
-
-	;
-	module.exports = exports['default'];
-
-/***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -658,7 +759,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -671,7 +772,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _JsFile = __webpack_require__(1);
 
-	var _parseImage = __webpack_require__(5);
+	var _parseImage = __webpack_require__(9);
 
 	var _parseImage2 = _interopRequireDefault(_parseImage);
 
@@ -688,8 +789,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var documentData = options.documentData;
 	    var _options$node = options.node;
 	    var node = _options$node === undefined ? {} : _options$node;
+	    var localName = node.localName;
 
-	    switch (node.localName) {
+	    switch (localName) {
 	        case 'p':
 	            result = this.parseParagraph({ node: node });
 	            break;
@@ -709,7 +811,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            break;
 	        default:
-	            result = this.parseBlock(node, documentData);
+	            if (localName) {
+	                result = this.parseBlock(node, documentData);
+	            }
 	    }
 
 	    return result;
@@ -719,7 +823,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -749,7 +853,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -762,7 +866,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _JsFile = __webpack_require__(1);
 
-	var _parseLinkElement = __webpack_require__(15);
+	var _parseLinkElement = __webpack_require__(16);
 
 	var _parseLinkElement2 = _interopRequireDefault(_parseLinkElement);
 
@@ -776,19 +880,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = function () {
 	    var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-	    var node = params.node || {};
-	    var children = [].slice.call(node && node.childNodes || [], 0);
 	    var element = undefined;
+	    var attrValue = undefined;
+	    var node = params.node;
 	    var result = _JsFile.Document.elementPrototype;
 	    result.properties.tagName = 'P';
 
+	    if (!node) {
+	        return result;
+	    }
+
+	    var children = [].slice.call(node && node.childNodes || [], 0);
 	    children.forEach(function (child) {
 	        var _child$textContent = child.textContent;
 	        var textContent = _child$textContent === undefined ? '' : _child$textContent;
 	        var localName = child.localName;
+	        var _child$attributes = child.attributes;
+	        var attributes = _child$attributes === undefined ? {} : _child$attributes;
 
 	        if (localName === 'a') {
-	            result.children.push((0, _parseLinkElement2['default'])(child));
+	            element = (0, _parseLinkElement2['default'])(child);
 	        } else {
 	            element = _JsFile.Document.elementPrototype;
 	            element.properties.tagName = 'SPAN';
@@ -799,10 +910,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	            } else if (localName === 'emphasis') {
 	                element.style.fontStyle = 'italic';
 	            }
-
-	            result.children.push(element);
 	        }
+
+	        attrValue = attributes['xml:lang'] && attributes['xml:lang'].value;
+	        if (attrValue) {
+	            element.properties.lang = attrValue;
+	        }
+
+	        result.children.push(element);
 	    });
+
+	    attrValue = node.attributes && node.attributes['xml:lang'] && node.attributes['xml:lang'].value;
+	    if (attrValue) {
+	        result.properties.lang = attrValue;
+	    }
 
 	    if (!children[0] && node.textContent) {
 	        element = _JsFile.Document.elementPrototype;
@@ -817,7 +938,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

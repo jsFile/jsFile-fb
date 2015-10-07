@@ -22,7 +22,8 @@ module.exports = function (config) {
 
         coverageReporter: {
             type: 'html',
-            dir: 'tests/coverage/'
+            dir: 'tests/coverage/',
+            includeAllSources: true
         },
 
 
@@ -42,10 +43,16 @@ module.exports = function (config) {
                         test: /(spec|src)/,
                         loader: 'babel',
                         query: {
-                            stage: 0
+                            stage: 0,
+                            auxiliaryCommentBefore: 'istanbul ignore next'
                         }
                     }
-                ]
+                ],
+                postLoaders: [{
+                    test: /\.js/,
+                    exclude: /(node_modules|bower_components)/,
+                    loader: 'istanbul-instrumenter'
+                }]
             }
         },
 

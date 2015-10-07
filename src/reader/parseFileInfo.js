@@ -43,7 +43,9 @@ export default function (xml, documentData) {
                 };
                 break;
             default:
-                info[formatPropertyName(localName)] = textContent;
+                if (localName) {
+                    info[formatPropertyName(localName)] = textContent;
+                }
         }
     }, this);
 

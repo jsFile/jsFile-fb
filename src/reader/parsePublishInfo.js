@@ -9,7 +9,10 @@ const {formatPropertyName} = JsFile.Engine;
 export default function (xml) {
     const info = {};
     [].forEach.call(xml && xml.childNodes || [], (node) => {
-        info[formatPropertyName(node.localName)] = node.textContent || '';
+        const {localName} = node;
+        if (localName) {
+            info[formatPropertyName(localName)] = node.textContent || '';
+        }
     });
     return info;
 };

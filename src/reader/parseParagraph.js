@@ -8,16 +8,21 @@ import parseLinkElement from './parseLinkElement';
  * @private
  */
 export default function (params = {}) {
-    const node = params.node || {};
-    const children = [].slice.call(node && node.childNodes || [], 0);
     let element;
-    let result = Document.elementPrototype;
+    let attrValue;
+    const node = params.node;
+    const result = Document.elementPrototype;
     result.properties.tagName = 'P';
 
+    if (!node) {
+        return result;
+    }
+
+    const children = [].slice.call(node && node.childNodes || [], 0);
     children.forEach((child) => {
-        const {textContent = '', localName} = child;
+        const {textContent = '', localName, attributes = {}} = child;
         if (localName === 'a') {
-            result.children.push(parseLinkElement(child));
+            element = parseLinkElement(child);
         } else {
             element = Document.elementPrototype;
             element.properties.tagName = 'SPAN';
@@ -28,10 +33,20 @@ export default function (params = {}) {
             } else if (localName === 'emphasis') {
                 element.style.fontStyle = 'italic';
             }
-
-            result.children.push(element);
         }
+
+        attrValue = attributes['xml:lang'] && attributes['xml:lang'].value;
+        if (attrValue) {
+            element.properties.lang = attrValue;
+        }
+
+        result.children.push(element);
     });
+
+    attrValue = node.attributes && node.attributes['xml:lang'] && node.attributes['xml:lang'].value;
+    if (attrValue) {
+        result.properties.lang = attrValue;
+    }
 
     if (!children[0] && node.textContent) {
         element = Document.elementPrototype;
