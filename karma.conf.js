@@ -50,7 +50,7 @@ module.exports = function (config) {
                 ],
                 postLoaders: [{
                     test: /\.js/,
-                    exclude: /(node_modules|bower_components)/,
+                    exclude: /(node_modules|bower_components|dist|tests)/,
                     loader: 'istanbul-instrumenter'
                 }]
             }
