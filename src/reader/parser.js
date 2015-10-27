@@ -25,7 +25,7 @@ export default function () {
         this.readFileEntry(fileEntry).then(
             function (result) {
                 const {defaultEncoding} = normalizeEncodingValue;
-                let [,encoding] = (/encoding="(.+)"/).exec(result);
+                let [, encoding] = (/encoding="(.+)"/).exec(result);
                 encoding = encoding ? normalizeEncodingValue(encoding) : defaultEncoding;
 
                 if (encoding !== defaultEncoding) {
