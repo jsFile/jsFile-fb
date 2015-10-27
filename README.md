@@ -1,4 +1,4 @@
-# jsFile-fb [![Build Status](https://secure.travis-ci.org/jsFile/jsFile-fb.png?branch=master)](https://travis-ci.org/jsFile/jsFile-fb)
+# jsFile-fb [![Build Status](https://secure.travis-ci.org/jsFile/jsFile-fb.png?branch=master)](https://travis-ci.org/jsFile/jsFile-fb) [![Coverage Status](https://coveralls.io/repos/jsFile/jsFile-fb/badge.svg?branch=master&service=github)](https://coveralls.io/github/jsFile/jsFile-fb?branch=master)
 Engine for jsFile library to work with documents in [FictionBook](https://en.wikipedia.org/wiki/FictionBook) format
 
 ## Installation
