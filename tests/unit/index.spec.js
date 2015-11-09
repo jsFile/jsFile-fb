@@ -19,6 +19,10 @@ describe('jsFile-fb', () => {
         assert.isFunction(FbEngine);
     });
 
+    it('should have files for testing', () => {
+        assert.notEqual(Object.keys(files || {}).length, 0);
+    });
+
     it('should read the file', function () {
         this.timeout(15000);
         const queue = [];
