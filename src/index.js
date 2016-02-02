@@ -1,4 +1,4 @@
-import {Engine, defineEngine} from 'JsFile';
+import JsFile from 'JsFile';
 import createDocument from './reader/createDocument';
 import parser from './reader/parser';
 import parseFileInfo from './reader/parseFileInfo';
@@ -7,6 +7,8 @@ import parsePages from './reader/parsePages';
 import parseBlockElement from './reader/parseBlockElement';
 import parseBlock from './reader/parseBlock';
 import parseParagraph from './reader/parseParagraph';
+
+const {Engine, defineEngine} = JsFile;
 
 /**
  * @description Supported files by engine
@@ -18,35 +20,30 @@ const files = {
 };
 
 class FbEngine extends Engine {
-    createDocument = createDocument
+    constructor () {
+        super(...arguments);
+        this.createDocument = createDocument;
+        this.files = files;
 
-    files = files
-
-    /**
-     * @override
-     * @type {Function}
-     */
-    parser = parser
-
-    parseFileInfo = parseFileInfo
-
-    parseDocumentInfo = parseDocumentInfo
-
-    parsePages = parsePages
-
-    parseBlockElement = parseBlockElement
-
-    parseBlock = parseBlock
-
-    parseParagraph = parseParagraph
+        /**
+         * @override
+         * @type {Function}
+         */
+        this.parser = parser;
+        this.parseFileInfo = parseFileInfo;
+        this.parseDocumentInfo = parseDocumentInfo;
+        this.parsePages = parsePages;
+        this.parseBlockElement = parseBlockElement;
+        this.parseBlock = parseBlock;
+        this.parseParagraph = parseParagraph;
+    }
 
     static test (file) {
         return Boolean(file && Engine.validateFile(file, files));
     }
-
-    static mimeTypes = files.mime.slice(0)
 }
 
+FbEngine.mimeTypes = files.mime.slice(0);
 defineEngine(FbEngine);
 
 export default FbEngine;

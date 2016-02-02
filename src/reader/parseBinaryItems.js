@@ -1,5 +1,5 @@
-export default function (nodes) {
-    let result = {};
+export default function parseBinaryItems (nodes) {
+    const result = {};
 
     [].forEach.call(nodes || [], (node) => {
         const attrs = node.attributes || {};
@@ -10,4 +10,4 @@ export default function (nodes) {
     });
 
     return result;
-};
+}

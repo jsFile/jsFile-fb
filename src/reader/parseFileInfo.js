@@ -8,7 +8,7 @@ const {formatPropertyName} = JsFile.Engine;
  * @return {Object}
  * @private
  */
-export default function (xml, documentData) {
+export default function parseFileInfo (xml, documentData) {
     const info = {};
 
     [].forEach.call(xml && xml.childNodes || [], function (node) {
@@ -50,4 +50,4 @@ export default function (xml, documentData) {
     }, this);
 
     return info;
-};
+}

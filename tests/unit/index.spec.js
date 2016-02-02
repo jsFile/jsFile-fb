@@ -34,7 +34,6 @@ describe('jsFile-fb', () => {
                         workerPath: '/base/dist/workers/'
                     });
                     const promise = jf.read().then(done, done);
-
                     queue.push(promise);
 
                     function done (result) {
@@ -43,8 +42,8 @@ describe('jsFile-fb', () => {
                         const html = result.html();
                         const text = html.textContent || '';
                         assert.jsonSchema(json, documentSchema, name);
-                        assert.notEqual(text.length, 0, `File ${name} shouldn't be empty`);
-                        assert.notEqual(result.name.length, 0, `Engine should parse a name of file ${name}`);
+                        assert.notEqual(text.length, 0, 'File ' + name + ' shouldn\'t be empty');
+                        assert.notEqual(result.name.length, 0, 'Engine should parse a name of file ' + name);
                     }
                 }(files[name], name));
             }

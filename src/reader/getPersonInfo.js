@@ -7,7 +7,7 @@ const {formatPropertyName} = JsFile.Engine;
  * @return {Object}
  * @private
  */
-export default function (xml) {
+export default function getPersonInfo (xml) {
     const info = {};
 
     [].forEach.call(xml && xml.childNodes || [], ({localName, textContent = ''}) => {
@@ -17,4 +17,4 @@ export default function (xml) {
     });
 
     return info;
-};
+}

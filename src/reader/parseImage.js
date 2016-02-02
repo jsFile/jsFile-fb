@@ -1,4 +1,6 @@
-import {Document} from 'JsFile';
+import JsFile from 'JsFile';
+
+const {Document} = JsFile;
 
 /**
  *
@@ -6,7 +8,7 @@ import {Document} from 'JsFile';
  * @returns {*}
  * @private
  */
-export default function (options = {}) {
+export default function parseImage (options = {}) {
     const result = Document.elementPrototype;
     const {node = {}, documentData, imageName} = options;
     const attrValue = node.attributes && node.attributes['xlink:href'] && node.attributes['xlink:href'].value;

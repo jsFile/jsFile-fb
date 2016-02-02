@@ -6,13 +6,15 @@ const {formatPropertyName} = JsFile.Engine;
  * @return {Object}
  * @private
  */
-export default function (xml) {
+export default function parsePublishInfo (xml) {
     const info = {};
+
     [].forEach.call(xml && xml.childNodes || [], (node) => {
         const {localName} = node;
         if (localName) {
             info[formatPropertyName(localName)] = node.textContent || '';
         }
     });
+
     return info;
-};
+}

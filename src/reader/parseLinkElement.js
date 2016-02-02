@@ -1,4 +1,6 @@
-import {Document} from 'JsFile';
+import JsFile from 'JsFile';
+
+const {Document} = JsFile;
 
 /**
  *
@@ -6,7 +8,7 @@ import {Document} from 'JsFile';
  * @returns {*}
  * @private
  */
-export default function (node = {}) {
+export default function parseLinkElement (node = {}) {
     const result = Document.elementPrototype;
     const href = node.attributes['l:href'] || node.attributes['xlink:href'];
     const link = (href && href.value) || '';
@@ -20,4 +22,4 @@ export default function (node = {}) {
     }
 
     return result;
-};
+}

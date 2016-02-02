@@ -6,8 +6,8 @@ const {errors: {invalidFileType, invalidReadFile}} = JsFile.Engine;
  * @description Read files in Fiction Book Format
  * @public
  */
-export default function () {
-    return new Promise(function (resolve, reject) {
+export default function parser () {
+    return new Promise((resolve, reject) => {
         const fileEntry = {
             file: this.file
         };
@@ -17,13 +17,13 @@ export default function () {
             return;
         }
 
-        const createDocument = function (result) {
+        const createDocument = (result) => {
             const domParser = new DOMParser();
             resolve(this.createDocument(domParser.parseFromString(result, 'application/xml')));
-        }.bind(this);
+        };
 
         this.readFileEntry(fileEntry).then(
-            function (result) {
+            (result) => {
                 const {defaultEncoding} = normalizeEncodingValue;
                 let [, encoding] = (/encoding="(.+)"/).exec(result);
                 encoding = encoding ? normalizeEncodingValue(encoding) : defaultEncoding;
@@ -34,9 +34,9 @@ export default function () {
                 } else {
                     createDocument(result);
                 }
-            }.bind(this),
+            },
             () => reject(new Error(invalidReadFile))
         );
 
-    }.bind(this));
+    });
 }

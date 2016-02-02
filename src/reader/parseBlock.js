@@ -1,6 +1,8 @@
-import {Document} from 'JsFile';
+import JsFile from 'JsFile';
 
-export default function (xml, documentData) {
+const {Document} = JsFile;
+
+export default function parseBlock (xml, documentData) {
     const result = Document.elementPrototype;
 
     [].forEach.call(xml && xml.childNodes || [], function (node) {
@@ -13,4 +15,4 @@ export default function (xml, documentData) {
     }, this);
 
     return result;
-};
+}

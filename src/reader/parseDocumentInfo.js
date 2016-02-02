@@ -6,7 +6,7 @@ import getPersonInfo from './getPersonInfo';
  * @return {Object}
  * @private
  */
-export default function (xml, documentData) {
+export default function parseDocumentInfo (xml, documentData) {
     const info = {
         programs: []
     };
@@ -45,4 +45,4 @@ export default function (xml, documentData) {
     }, this);
 
     return info;
-};
+}

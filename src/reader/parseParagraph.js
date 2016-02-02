@@ -1,5 +1,7 @@
-import {Document} from 'JsFile';
 import parseLinkElement from './parseLinkElement';
+import JsFile from 'JsFile';
+
+const {Document} = JsFile;
 
 /**
  *
@@ -7,7 +9,7 @@ import parseLinkElement from './parseLinkElement';
  * @returns {*}
  * @private
  */
-export default function (params = {}) {
+export default function parseParagraph (params = {}) {
     let element;
     let attrValue;
     const node = params.node;
@@ -55,4 +57,4 @@ export default function (params = {}) {
     }
 
     return result;
-};
+}

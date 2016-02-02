@@ -1,4 +1,6 @@
-import {Document} from 'JsFile';
+import JsFile from 'JsFile';
+
+const {Document} = JsFile;
 
 /**
  *
@@ -7,7 +9,7 @@ import {Document} from 'JsFile';
  * @param list
  * @private
  */
-export default function (xml, documentData, list) {
+export default function parsePages (xml, documentData, list) {
     const {attributes = {}} = xml;
 
     [].forEach.call(xml && xml.childNodes || [], function (node) {
@@ -33,4 +35,4 @@ export default function (xml, documentData, list) {
         el.properties.name = attributes.id.value;
         list[list.length - 1].children.unshift(el);
     }
-};
+}

@@ -33,8 +33,8 @@ const descriptionProcessors = {
  * @param xml {Document}
  * @private
  */
-export default function (xml) {
-    return new Promise(function (resolve) {
+export default function createDocument (xml) {
+    return new Promise((resolve) => {
         const documentData = {
             meta: {
                 name: this.fileName
@@ -83,5 +83,5 @@ export default function (xml) {
             meta: documentData.meta,
             content: [page]
         }));
-    }.bind(this));
+    });
 }

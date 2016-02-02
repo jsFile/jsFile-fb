@@ -1,12 +1,14 @@
-import {Document} from 'JsFile';
 import parseImage from './parseImage';
+import JsFile from 'JsFile';
+
+const {Document} = JsFile;
 
 /**
  *
  * @param options {{node, documentData}}
  * @private
  */
-export default function (options = {}) {
+export default function parseBlockElement (options = {}) {
     let result;
     const {documentData, node = {}} = options;
     const {localName} = node;
@@ -37,4 +39,4 @@ export default function (options = {}) {
     }
 
     return result;
-};
+}

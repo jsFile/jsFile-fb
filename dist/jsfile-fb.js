@@ -56,105 +56,108 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 	var _JsFile = __webpack_require__(1);
 
-	var _readerCreateDocument = __webpack_require__(2);
+	var _JsFile2 = _interopRequireDefault(_JsFile);
 
-	var _readerCreateDocument2 = _interopRequireDefault(_readerCreateDocument);
+	var _createDocument = __webpack_require__(2);
 
-	var _readerParser = __webpack_require__(10);
+	var _createDocument2 = _interopRequireDefault(_createDocument);
 
-	var _readerParser2 = _interopRequireDefault(_readerParser);
+	var _parser = __webpack_require__(10);
 
-	var _readerParseFileInfo = __webpack_require__(5);
+	var _parser2 = _interopRequireDefault(_parser);
 
-	var _readerParseFileInfo2 = _interopRequireDefault(_readerParseFileInfo);
+	var _parseFileInfo = __webpack_require__(5);
 
-	var _readerParseDocumentInfo = __webpack_require__(7);
+	var _parseFileInfo2 = _interopRequireDefault(_parseFileInfo);
 
-	var _readerParseDocumentInfo2 = _interopRequireDefault(_readerParseDocumentInfo);
+	var _parseDocumentInfo = __webpack_require__(7);
 
-	var _readerParsePages = __webpack_require__(12);
+	var _parseDocumentInfo2 = _interopRequireDefault(_parseDocumentInfo);
 
-	var _readerParsePages2 = _interopRequireDefault(_readerParsePages);
+	var _parsePages = __webpack_require__(12);
 
-	var _readerParseBlockElement = __webpack_require__(13);
+	var _parsePages2 = _interopRequireDefault(_parsePages);
 
-	var _readerParseBlockElement2 = _interopRequireDefault(_readerParseBlockElement);
+	var _parseBlockElement = __webpack_require__(13);
 
-	var _readerParseBlock = __webpack_require__(14);
+	var _parseBlockElement2 = _interopRequireDefault(_parseBlockElement);
 
-	var _readerParseBlock2 = _interopRequireDefault(_readerParseBlock);
+	var _parseBlock = __webpack_require__(14);
 
-	var _readerParseParagraph = __webpack_require__(15);
+	var _parseBlock2 = _interopRequireDefault(_parseBlock);
 
-	var _readerParseParagraph2 = _interopRequireDefault(_readerParseParagraph);
+	var _parseParagraph = __webpack_require__(15);
+
+	var _parseParagraph2 = _interopRequireDefault(_parseParagraph);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Engine = _JsFile2.default.Engine;
+	var defineEngine = _JsFile2.default.defineEngine;
 
 	/**
 	 * @description Supported files by engine
 	 * @type {{extension: Array, mime: Array}}
 	 */
+
 	var files = {
 	    extension: ['fb2'],
 	    mime: ['application/x-fictionbook+xml']
 	};
 
-	var FbEngine = (function (_Engine) {
+	var FbEngine = function (_Engine) {
 	    _inherits(FbEngine, _Engine);
 
 	    function FbEngine() {
 	        _classCallCheck(this, FbEngine);
 
-	        _get(Object.getPrototypeOf(FbEngine.prototype), 'constructor', this).apply(this, arguments);
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(FbEngine).apply(this, arguments));
 
-	        this.createDocument = _readerCreateDocument2['default'];
-	        this.files = files;
-	        this.parser = _readerParser2['default'];
-	        this.parseFileInfo = _readerParseFileInfo2['default'];
-	        this.parseDocumentInfo = _readerParseDocumentInfo2['default'];
-	        this.parsePages = _readerParsePages2['default'];
-	        this.parseBlockElement = _readerParseBlockElement2['default'];
-	        this.parseBlock = _readerParseBlock2['default'];
-	        this.parseParagraph = _readerParseParagraph2['default'];
+	        _this.createDocument = _createDocument2.default;
+	        _this.files = files;
+
+	        /**
+	         * @override
+	         * @type {Function}
+	         */
+	        _this.parser = _parser2.default;
+	        _this.parseFileInfo = _parseFileInfo2.default;
+	        _this.parseDocumentInfo = _parseDocumentInfo2.default;
+	        _this.parsePages = _parsePages2.default;
+	        _this.parseBlockElement = _parseBlockElement2.default;
+	        _this.parseBlock = _parseBlock2.default;
+	        _this.parseParagraph = _parseParagraph2.default;
+	        return _this;
 	    }
 
 	    _createClass(FbEngine, null, [{
 	        key: 'test',
 	        value: function test(file) {
-	            return Boolean(file && _JsFile.Engine.validateFile(file, files));
+	            return Boolean(file && Engine.validateFile(file, files));
 	        }
-	    }, {
-	        key: 'mimeTypes',
-	        value: files.mime.slice(0),
-	        enumerable: true
 	    }]);
 
 	    return FbEngine;
-	})(_JsFile.Engine);
+	}(Engine);
 
-	(0, _JsFile.defineEngine)(FbEngine);
+	FbEngine.mimeTypes = files.mime.slice(0);
+	defineEngine(FbEngine);
 
-	exports['default'] = FbEngine;
-	module.exports = exports['default'];
-
-	/**
-	 * @override
-	 * @type {Function}
-	 */
+	exports.default = FbEngine;
 
 /***/ },
 /* 1 */
@@ -168,11 +171,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	exports.default = createDocument;
 
 	var _JsFile = __webpack_require__(1);
 
@@ -202,27 +204,29 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _parseImage2 = _interopRequireDefault(_parseImage);
 
-	var Document = _JsFile2['default'].Document;
-	var formatPropertyName = _JsFile2['default'].Engine.formatPropertyName;
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Document = _JsFile2.default.Document;
+	var formatPropertyName = _JsFile2.default.Engine.formatPropertyName;
 
 	var forEach = [].forEach;
 	var descriptionProcessors = {
 	    'publish-info': {
-	        parser: _parsePublishInfo2['default']
+	        parser: _parsePublishInfo2.default
 	    },
 	    'title-info': {
 	        name: 'fileInfo',
-	        parser: _parseFileInfo2['default']
+	        parser: _parseFileInfo2.default
 	    },
 	    'src-title-info': {
 	        name: 'originalFileInfo',
-	        parser: _parseFileInfo2['default']
+	        parser: _parseFileInfo2.default
 	    },
 	    'document-info': {
-	        parser: _parseDocumentInfo2['default']
+	        parser: _parseDocumentInfo2.default
 	    },
 	    'custom-info': {
-	        parser: _parseCustomInfo2['default']
+	        parser: _parseCustomInfo2.default
 	    }
 	};
 
@@ -231,14 +235,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param xml {Document}
 	 * @private
 	 */
-
-	exports['default'] = function (xml) {
-	    return new Promise((function (resolve) {
+	function createDocument(xml) {
+	    return new Promise(function (resolve) {
 	        var documentData = {
 	            meta: {
 	                name: this.fileName
 	            },
-	            binaryItems: (0, _parseBinaryItems2['default'])(xml.querySelectorAll('binary'))
+	            binaryItems: (0, _parseBinaryItems2.default)(xml.querySelectorAll('binary'))
 	        };
 	        var page = Document.elementPrototype;
 	        var node = xml.querySelector('FictionBook');
@@ -266,7 +269,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	                if (documentData.meta.fileInfo && documentData.meta.fileInfo.coverpage && documentData.binaryItems[documentData.meta.fileInfo.coverpage.image]) {
 	                    var element = Document.elementPrototype;
-	                    element.children = [(0, _parseImage2['default'])({
+	                    element.children = [(0, _parseImage2.default)({
 	                        documentData: documentData,
 	                        imageName: documentData.meta.fileInfo.coverpage.image
 	                    })];
@@ -281,10 +284,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            meta: documentData.meta,
 	            content: [page]
 	        }));
-	    }).bind(this));
-	};
-
-	module.exports = exports['default'];
+	    }.bind(this));
+	}
 
 /***/ },
 /* 3 */
@@ -292,11 +293,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	exports['default'] = function (nodes) {
+	exports.default = parseBinaryItems;
+	function parseBinaryItems(nodes) {
 	    var result = {};
 
 	    [].forEach.call(nodes || [], function (node) {
@@ -308,10 +309,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 
 	    return result;
-	};
-
-	;
-	module.exports = exports['default'];
+	}
 
 /***/ },
 /* 4 */
@@ -319,17 +317,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	exports.default = parsePublishInfo;
 
 	var _JsFile = __webpack_require__(1);
 
 	var _JsFile2 = _interopRequireDefault(_JsFile);
 
-	var formatPropertyName = _JsFile2['default'].Engine.formatPropertyName;
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var formatPropertyName = _JsFile2.default.Engine.formatPropertyName;
 
 	/**
 	 * @param xml
@@ -337,8 +336,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 */
 
-	exports['default'] = function (xml) {
+	function parsePublishInfo(xml) {
 	    var info = {};
+
 	    [].forEach.call(xml && xml.childNodes || [], function (node) {
 	        var localName = node.localName;
 
@@ -346,11 +346,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            info[formatPropertyName(localName)] = node.textContent || '';
 	        }
 	    });
-	    return info;
-	};
 
-	;
-	module.exports = exports['default'];
+	    return info;
+	}
 
 /***/ },
 /* 5 */
@@ -358,11 +356,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	exports.default = parseFileInfo;
 
 	var _JsFile = __webpack_require__(1);
 
@@ -372,7 +369,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _getPersonInfo2 = _interopRequireDefault(_getPersonInfo);
 
-	var formatPropertyName = _JsFile2['default'].Engine.formatPropertyName;
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var formatPropertyName = _JsFile2.default.Engine.formatPropertyName;
 
 	/**
 	 * @param xml
@@ -381,7 +380,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 */
 
-	exports['default'] = function (xml, documentData) {
+	function parseFileInfo(xml, documentData) {
 	    var info = {};
 
 	    [].forEach.call(xml && xml.childNodes || [], function (node) {
@@ -401,7 +400,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                info[localName] = this.parseBlock(node, documentData);
 	                break;
 	            case 'translator':
-	                info[localName] = (0, _getPersonInfo2['default'])(node);
+	                info[localName] = (0, _getPersonInfo2.default)(node);
 	                break;
 	            case 'coverpage':
 	                var imageNode = node.querySelector('image');
@@ -425,10 +424,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, this);
 
 	    return info;
-	};
-
-	;
-	module.exports = exports['default'];
+	}
 
 /***/ },
 /* 6 */
@@ -436,17 +432,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	exports.default = getPersonInfo;
 
 	var _JsFile = __webpack_require__(1);
 
 	var _JsFile2 = _interopRequireDefault(_JsFile);
 
-	var formatPropertyName = _JsFile2['default'].Engine.formatPropertyName;
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var formatPropertyName = _JsFile2.default.Engine.formatPropertyName;
 
 	/**
 	 *
@@ -455,7 +452,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 */
 
-	exports['default'] = function (xml) {
+	function getPersonInfo(xml) {
 	    var info = {};
 
 	    [].forEach.call(xml && xml.childNodes || [], function (_ref) {
@@ -469,10 +466,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 
 	    return info;
-	};
-
-	;
-	module.exports = exports['default'];
+	}
 
 /***/ },
 /* 7 */
@@ -480,15 +474,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	exports.default = parseDocumentInfo;
 
 	var _getPersonInfo = __webpack_require__(6);
 
 	var _getPersonInfo2 = _interopRequireDefault(_getPersonInfo);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/**
 	 * @param xml
@@ -496,8 +491,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @return {Object}
 	 * @private
 	 */
-
-	exports['default'] = function (xml, documentData) {
+	function parseDocumentInfo(xml, documentData) {
 	    var info = {
 	        programs: []
 	    };
@@ -509,7 +503,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        switch (localName) {
 	            case 'author':
-	                info[localName] = (0, _getPersonInfo2['default'])(node);
+	                info[localName] = (0, _getPersonInfo2.default)(node);
 	                break;
 	            case 'id':
 	                info[localName] = textContent;
@@ -541,10 +535,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, this);
 
 	    return info;
-	};
-
-	;
-	module.exports = exports['default'];
+	}
 
 /***/ },
 /* 8 */
@@ -552,15 +543,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	exports['default'] = function (xml) {
+	exports.default = function (xml) {
 	  return xml && xml.textContent || '';
 	};
-
-	module.exports = exports['default'];
 
 /***/ },
 /* 9 */
@@ -568,11 +557,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.default = parseImage;
 
 	var _JsFile = __webpack_require__(1);
+
+	var _JsFile2 = _interopRequireDefault(_JsFile);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Document = _JsFile2.default.Document;
 
 	/**
 	 *
@@ -581,10 +577,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 */
 
-	exports['default'] = function () {
+	function parseImage() {
 	    var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-	    var result = _JsFile.Document.elementPrototype;
+	    var result = Document.elementPrototype;
 	    var _options$node = options.node;
 	    var node = _options$node === undefined ? {} : _options$node;
 	    var documentData = options.documentData;
@@ -603,9 +599,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    result.properties.alt = '';
 
 	    return result;
-	};
-
-	module.exports = exports['default'];
+	}
 
 /***/ },
 /* 10 */
@@ -613,13 +607,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	exports.default = parser;
 
 	var _JsFile = __webpack_require__(1);
 
@@ -629,7 +622,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _normalizeEncodingValue2 = _interopRequireDefault(_normalizeEncodingValue);
 
-	var _JsFile$Engine$errors = _JsFile2['default'].Engine.errors;
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _JsFile$Engine$errors = _JsFile2.default.Engine.errors;
 	var invalidFileType = _JsFile$Engine$errors.invalidFileType;
 	var invalidReadFile = _JsFile$Engine$errors.invalidReadFile;
 
@@ -638,8 +633,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @public
 	 */
 
-	exports['default'] = function () {
-	    return new Promise((function (resolve, reject) {
+	function parser() {
+	    return new Promise(function (resolve, reject) {
 	        var fileEntry = {
 	            file: this.file
 	        };
@@ -649,21 +644,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return;
 	        }
 
-	        var createDocument = (function (result) {
+	        var createDocument = function (result) {
 	            var domParser = new DOMParser();
 	            resolve(this.createDocument(domParser.parseFromString(result, 'application/xml')));
-	        }).bind(this);
+	        }.bind(this);
 
-	        this.readFileEntry(fileEntry).then((function (result) {
-	            var defaultEncoding = _normalizeEncodingValue2['default'].defaultEncoding;
+	        this.readFileEntry(fileEntry).then(function (result) {
+	            var defaultEncoding = _normalizeEncodingValue2.default.defaultEncoding;
 
-	            var _encoding$exec = /encoding="(.+)"/.exec(result);
+	            var _$exec = /encoding="(.+)"/.exec(result);
 
-	            var _encoding$exec2 = _slicedToArray(_encoding$exec, 2);
+	            var _$exec2 = _slicedToArray(_$exec, 2);
 
-	            var encoding = _encoding$exec2[1];
+	            var encoding = _$exec2[1];
 
-	            encoding = encoding ? (0, _normalizeEncodingValue2['default'])(encoding) : defaultEncoding;
+	            encoding = encoding ? (0, _normalizeEncodingValue2.default)(encoding) : defaultEncoding;
 
 	            if (encoding !== defaultEncoding) {
 	                fileEntry.encoding = encoding;
@@ -673,13 +668,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            } else {
 	                createDocument(result);
 	            }
-	        }).bind(this), function () {
+	        }.bind(this), function () {
 	            return reject(new Error(invalidReadFile));
 	        });
-	    }).bind(this));
-	};
-
-	module.exports = exports['default'];
+	    }.bind(this));
+	}
 
 /***/ },
 /* 11 */
@@ -687,16 +680,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 	var encodings = {
 	  'windows-1251': 'cp1251'
 	};
 
-	var defaultEncoding = 'utf8';
+	var defaultEncoding = exports.defaultEncoding = 'utf8';
 
-	exports.defaultEncoding = defaultEncoding;
 	/**
 	 *
 	 * @param value
@@ -704,7 +696,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 */
 
-	exports['default'] = function (value) {
+	exports.default = function (value) {
 	  return value && encodings[String(value).toLowerCase()] || defaultEncoding;
 	};
 
@@ -714,11 +706,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.default = parsePages;
 
 	var _JsFile = __webpack_require__(1);
+
+	var _JsFile2 = _interopRequireDefault(_JsFile);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Document = _JsFile2.default.Document;
 
 	/**
 	 *
@@ -728,7 +727,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 */
 
-	exports['default'] = function (xml, documentData, list) {
+	function parsePages(xml, documentData, list) {
 	    var _xml$attributes = xml.attributes;
 	    var attributes = _xml$attributes === undefined ? {} : _xml$attributes;
 
@@ -748,15 +747,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, this);
 
 	    if (attributes.id && attributes.id.value && list[0]) {
-	        var el = _JsFile.Document.elementPrototype;
+	        var el = Document.elementPrototype;
 	        el.properties.tagName = 'A';
 	        el.properties.name = attributes.id.value;
 	        list[list.length - 1].children.unshift(el);
 	    }
-	};
-
-	;
-	module.exports = exports['default'];
+	}
 
 /***/ },
 /* 13 */
@@ -764,17 +760,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _JsFile = __webpack_require__(1);
+	exports.default = parseBlockElement;
 
 	var _parseImage = __webpack_require__(9);
 
 	var _parseImage2 = _interopRequireDefault(_parseImage);
+
+	var _JsFile = __webpack_require__(1);
+
+	var _JsFile2 = _interopRequireDefault(_JsFile);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Document = _JsFile2.default.Document;
 
 	/**
 	 *
@@ -782,7 +783,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 */
 
-	exports['default'] = function () {
+	function parseBlockElement() {
 	    var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
 	    var result = undefined;
@@ -796,7 +797,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            result = this.parseParagraph({ node: node });
 	            break;
 	        case 'empty-line':
-	            result = _JsFile.Document.elementPrototype;
+	            result = Document.elementPrototype;
 	            result.properties.tagName = 'BR';
 	            break;
 	        case 'subtitle':
@@ -804,7 +805,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            result.style.textAlign = 'center';
 	            break;
 	        case 'image':
-	            result = (0, _parseImage2['default'])({
+	            result = (0, _parseImage2.default)({
 	                node: node,
 	                documentData: documentData
 	            });
@@ -817,10 +818,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    return result;
-	};
-
-	;
-	module.exports = exports['default'];
+	}
 
 /***/ },
 /* 14 */
@@ -828,14 +826,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.default = parseBlock;
 
 	var _JsFile = __webpack_require__(1);
 
-	exports['default'] = function (xml, documentData) {
-	    var result = _JsFile.Document.elementPrototype;
+	var _JsFile2 = _interopRequireDefault(_JsFile);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Document = _JsFile2.default.Document;
+	function parseBlock(xml, documentData) {
+	    var result = Document.elementPrototype;
 
 	    [].forEach.call(xml && xml.childNodes || [], function (node) {
 	        if (node.localName) {
@@ -847,10 +851,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, this);
 
 	    return result;
-	};
-
-	;
-	module.exports = exports['default'];
+	}
 
 /***/ },
 /* 15 */
@@ -858,17 +859,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _JsFile = __webpack_require__(1);
+	exports.default = parseParagraph;
 
 	var _parseLinkElement = __webpack_require__(16);
 
 	var _parseLinkElement2 = _interopRequireDefault(_parseLinkElement);
+
+	var _JsFile = __webpack_require__(1);
+
+	var _JsFile2 = _interopRequireDefault(_JsFile);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Document = _JsFile2.default.Document;
 
 	/**
 	 *
@@ -877,13 +883,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 */
 
-	exports['default'] = function () {
+	function parseParagraph() {
 	    var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
 	    var element = undefined;
 	    var attrValue = undefined;
 	    var node = params.node;
-	    var result = _JsFile.Document.elementPrototype;
+	    var result = Document.elementPrototype;
 	    result.properties.tagName = 'P';
 
 	    if (!node) {
@@ -899,9 +905,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var attributes = _child$attributes === undefined ? {} : _child$attributes;
 
 	        if (localName === 'a') {
-	            element = (0, _parseLinkElement2['default'])(child);
+	            element = (0, _parseLinkElement2.default)(child);
 	        } else {
-	            element = _JsFile.Document.elementPrototype;
+	            element = Document.elementPrototype;
 	            element.properties.tagName = 'SPAN';
 	            element.properties.textContent = textContent;
 
@@ -926,16 +932,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    if (!children[0] && node.textContent) {
-	        element = _JsFile.Document.elementPrototype;
+	        element = Document.elementPrototype;
 	        element.properties.textContent = node.textContent;
 	        result.children.push(element);
 	    }
 
 	    return result;
-	};
-
-	;
-	module.exports = exports['default'];
+	}
 
 /***/ },
 /* 16 */
@@ -943,11 +946,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.default = parseLinkElement;
 
 	var _JsFile = __webpack_require__(1);
+
+	var _JsFile2 = _interopRequireDefault(_JsFile);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Document = _JsFile2.default.Document;
 
 	/**
 	 *
@@ -956,10 +966,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 */
 
-	exports['default'] = function () {
+	function parseLinkElement() {
 	    var node = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-	    var result = _JsFile.Document.elementPrototype;
+	    var result = Document.elementPrototype;
 	    var href = node.attributes['l:href'] || node.attributes['xlink:href'];
 	    var link = href && href.value || '';
 
@@ -972,10 +982,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    return result;
-	};
-
-	;
-	module.exports = exports['default'];
+	}
 
 /***/ }
 /******/ ])
