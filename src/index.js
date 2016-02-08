@@ -8,7 +8,7 @@ import parseBlockElement from './reader/parseBlockElement';
 import parseBlock from './reader/parseBlock';
 import parseParagraph from './reader/parseParagraph';
 
-const {Engine, defineEngine} = JsFile;
+const {Engine} = JsFile;
 
 /**
  * @description Supported files by engine
@@ -44,6 +44,5 @@ class FbEngine extends Engine {
 }
 
 FbEngine.mimeTypes = files.mime.slice(0);
-defineEngine(FbEngine);
 
 export default FbEngine;

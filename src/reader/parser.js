@@ -35,8 +35,8 @@ export default function parser () {
                     createDocument(result);
                 }
             },
+
             () => reject(new Error(invalidReadFile))
         );
-
     });
 }

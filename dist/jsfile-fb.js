@@ -56,11 +56,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _JsFile = __webpack_require__(1);
 
@@ -107,7 +107,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var Engine = _JsFile2.default.Engine;
-	var defineEngine = _JsFile2.default.defineEngine;
 
 	/**
 	 * @description Supported files by engine
@@ -155,7 +154,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(Engine);
 
 	FbEngine.mimeTypes = files.mime.slice(0);
-	defineEngine(FbEngine);
 
 	exports.default = FbEngine;
 
@@ -236,10 +234,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 */
 	function createDocument(xml) {
+	    var _this = this;
+
 	    return new Promise(function (resolve) {
 	        var documentData = {
 	            meta: {
-	                name: this.fileName
+	                name: _this.fileName
 	            },
 	            binaryItems: (0, _parseBinaryItems2.default)(xml.querySelectorAll('binary'))
 	        };
@@ -248,6 +248,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        forEach.call(node && node.childNodes || [], function (node) {
 	            var localName = node.localName;
+
 
 	            if (localName === 'description') {
 	                forEach.call(node.childNodes || [], function (node) {
@@ -278,13 +279,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            } else if (localName === 'body') {
 	                this.parsePages(node, documentData, page.children);
 	            }
-	        }, this);
+	        }, _this);
 
 	        resolve(new Document({
 	            meta: documentData.meta,
 	            content: [page]
 	        }));
-	    }.bind(this));
+	    });
 	}
 
 /***/ },
@@ -387,6 +388,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var localName = node.localName;
 	        var _node$textContent = node.textContent;
 	        var textContent = _node$textContent === undefined ? '' : _node$textContent;
+
 
 	        switch (localName) {
 	            case 'genre':
@@ -607,11 +609,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 	exports.default = parser;
 
 	var _JsFile = __webpack_require__(1);
@@ -634,22 +637,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	function parser() {
+	    var _this = this;
+
 	    return new Promise(function (resolve, reject) {
 	        var fileEntry = {
-	            file: this.file
+	            file: _this.file
 	        };
 
-	        if (!this.isValid()) {
+	        if (!_this.isValid()) {
 	            reject(new Error(invalidFileType));
 	            return;
 	        }
 
-	        var createDocument = function (result) {
+	        var createDocument = function createDocument(result) {
 	            var domParser = new DOMParser();
-	            resolve(this.createDocument(domParser.parseFromString(result, 'application/xml')));
-	        }.bind(this);
+	            resolve(_this.createDocument(domParser.parseFromString(result, 'application/xml')));
+	        };
 
-	        this.readFileEntry(fileEntry).then(function (result) {
+	        _this.readFileEntry(fileEntry).then(function (result) {
 	            var defaultEncoding = _normalizeEncodingValue2.default.defaultEncoding;
 
 	            var _$exec = /encoding="(.+)"/.exec(result);
@@ -662,16 +667,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            if (encoding !== defaultEncoding) {
 	                fileEntry.encoding = encoding;
-	                this.readFileEntry(fileEntry).then(createDocument, function () {
+	                _this.readFileEntry(fileEntry).then(createDocument, function () {
 	                    return reject(new Error(invalidReadFile));
 	                });
 	            } else {
 	                createDocument(result);
 	            }
-	        }.bind(this), function () {
+	        }, function () {
 	            return reject(new Error(invalidReadFile));
 	        });
-	    }.bind(this));
+	    });
 	}
 
 /***/ },
@@ -730,6 +735,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function parsePages(xml, documentData, list) {
 	    var _xml$attributes = xml.attributes;
 	    var attributes = _xml$attributes === undefined ? {} : _xml$attributes;
+
 
 	    [].forEach.call(xml && xml.childNodes || [], function (node) {
 	        var localName = node.localName;
@@ -791,6 +797,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _options$node = options.node;
 	    var node = _options$node === undefined ? {} : _options$node;
 	    var localName = node.localName;
+
 
 	    switch (localName) {
 	        case 'p':

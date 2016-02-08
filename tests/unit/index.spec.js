@@ -13,10 +13,7 @@ describe('jsFile-fb', () => {
 
     before(() => {
         files = window.files;
-    });
-
-    it('should exist', () => {
-        assert.isFunction(FbEngine);
+        JsFile.defineEngine(FbEngine);
     });
 
     it('should have files for testing', () => {
